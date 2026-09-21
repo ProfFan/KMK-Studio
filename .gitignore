@@ -1,0 +1,24 @@
+# Dependencies and generated builds
+node_modules/
+dist/
+*.tsbuildinfo
+
+# Downloaded engines, browser runtimes, and test artifacts
+.cache/
+test-results/
+playwright-report/
+
+# Local Vite environment settings (keep shareable examples)
+.env
+.env.*
+!.env.example
+!.env.*.example
+
+# Runtime logs, Python bytecode, and interrupted CLI atomic writes
+*.log
+__pycache__/
+*.py[cod]
+*.json.[0-9]*.tmp
+
+# macOS metadata
+.DS_Store

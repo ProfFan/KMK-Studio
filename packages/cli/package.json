@@ -1,0 +1,13 @@
+{
+  "name": "@kmk/cli",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "bin": {
+    "kmk": "./bin/kmk.mjs"
+  },
+  "dependencies": {
+    "@kmk/compiler": "*",
+    "tsx": "^4.20.0"
+  }
+}

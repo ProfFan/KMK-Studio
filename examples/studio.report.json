@@ -1,0 +1,340 @@
+{
+  "ok": true,
+  "diagnostics": [],
+  "sourceMap": [
+    {
+      "manipulator": 0,
+      "bindingId": "space-dance",
+      "layerId": "base",
+      "phase": "continue-3"
+    },
+    {
+      "manipulator": 1,
+      "bindingId": "space-dance",
+      "layerId": "base",
+      "phase": "continue-2"
+    },
+    {
+      "manipulator": 2,
+      "bindingId": "caps-navigation",
+      "layerId": "base",
+      "phase": "begin"
+    },
+    {
+      "manipulator": 3,
+      "bindingId": "space-dance",
+      "layerId": "base",
+      "phase": "begin"
+    },
+    {
+      "manipulator": 4,
+      "bindingId": "nav-o",
+      "layerId": "nav",
+      "phase": "map"
+    },
+    {
+      "manipulator": 5,
+      "bindingId": "nav-u",
+      "layerId": "nav",
+      "phase": "map"
+    },
+    {
+      "manipulator": 6,
+      "bindingId": "nav-l",
+      "layerId": "nav",
+      "phase": "map"
+    },
+    {
+      "manipulator": 7,
+      "bindingId": "nav-k",
+      "layerId": "nav",
+      "phase": "map"
+    },
+    {
+      "manipulator": 8,
+      "bindingId": "nav-j",
+      "layerId": "nav",
+      "phase": "map"
+    },
+    {
+      "manipulator": 9,
+      "bindingId": "nav-h",
+      "layerId": "nav",
+      "phase": "map"
+    }
+  ],
+  "machines": [
+    {
+      "bindingId": "caps-navigation",
+      "layerId": "base",
+      "states": [
+        {
+          "id": "idle",
+          "transitions": [
+            {
+              "event": "down",
+              "to": "down-1",
+              "effect": "start gesture"
+            }
+          ]
+        },
+        {
+          "id": "down-1",
+          "transitions": [
+            {
+              "event": "up",
+              "to": "idle",
+              "effect": "emit tap"
+            },
+            {
+              "event": "interrupt",
+              "to": "resolved",
+              "effect": "resolve interruption"
+            },
+            {
+              "event": "hold",
+              "to": "held-1",
+              "effect": "activate hold"
+            }
+          ]
+        },
+        {
+          "id": "held-1",
+          "transitions": [
+            {
+              "event": "up",
+              "to": "idle",
+              "effect": "release owned output"
+            }
+          ]
+        },
+        {
+          "id": "resolved",
+          "transitions": [
+            {
+              "event": "up",
+              "to": "idle",
+              "effect": "cleanup"
+            }
+          ]
+        }
+      ],
+      "stages": [
+        {
+          "tap": {
+            "type": "key",
+            "key": "escape"
+          },
+          "hold": {
+            "type": "layer",
+            "layer": "nav",
+            "mode": "momentary"
+          },
+          "index": 1,
+          "terminal": true,
+          "timing": {
+            "tapWindowMs": 250,
+            "holdMs": 200
+          },
+          "interruption": "hold"
+        }
+      ]
+    },
+    {
+      "bindingId": "space-dance",
+      "layerId": "base",
+      "states": [
+        {
+          "id": "idle",
+          "transitions": [
+            {
+              "event": "down",
+              "to": "down-1",
+              "effect": "start gesture"
+            }
+          ]
+        },
+        {
+          "id": "down-1",
+          "transitions": [
+            {
+              "event": "up",
+              "to": "wait-1",
+              "effect": "await continuation"
+            },
+            {
+              "event": "timeout",
+              "to": "resolved",
+              "effect": "commit tap when continuation becomes impossible"
+            },
+            {
+              "event": "interrupt",
+              "to": "resolved",
+              "effect": "resolve interruption"
+            }
+          ]
+        },
+        {
+          "id": "wait-1",
+          "transitions": [
+            {
+              "event": "down",
+              "to": "down-2",
+              "effect": "continue"
+            },
+            {
+              "event": "timeout",
+              "to": "idle",
+              "effect": "emit tap"
+            },
+            {
+              "event": "interrupt",
+              "to": "idle",
+              "effect": "emit tap"
+            }
+          ]
+        },
+        {
+          "id": "down-2",
+          "transitions": [
+            {
+              "event": "up",
+              "to": "wait-2",
+              "effect": "await continuation"
+            },
+            {
+              "event": "timeout",
+              "to": "resolved",
+              "effect": "commit tap when continuation becomes impossible"
+            },
+            {
+              "event": "interrupt",
+              "to": "resolved",
+              "effect": "resolve interruption"
+            }
+          ]
+        },
+        {
+          "id": "wait-2",
+          "transitions": [
+            {
+              "event": "down",
+              "to": "down-3",
+              "effect": "continue"
+            },
+            {
+              "event": "timeout",
+              "to": "idle",
+              "effect": "emit tap"
+            },
+            {
+              "event": "interrupt",
+              "to": "idle",
+              "effect": "emit tap"
+            }
+          ]
+        },
+        {
+          "id": "down-3",
+          "transitions": [
+            {
+              "event": "up",
+              "to": "idle",
+              "effect": "emit tap"
+            },
+            {
+              "event": "interrupt",
+              "to": "resolved",
+              "effect": "resolve interruption"
+            }
+          ]
+        },
+        {
+          "id": "resolved",
+          "transitions": [
+            {
+              "event": "up",
+              "to": "idle",
+              "effect": "cleanup"
+            }
+          ]
+        }
+      ],
+      "stages": [
+        {
+          "tap": {
+            "type": "key",
+            "key": "spacebar"
+          },
+          "index": 1,
+          "terminal": false,
+          "timing": {
+            "tapWindowMs": 250,
+            "holdMs": 200
+          },
+          "interruption": "tap"
+        },
+        {
+          "tap": {
+            "type": "key",
+            "key": "period"
+          },
+          "index": 2,
+          "terminal": false,
+          "timing": {
+            "tapWindowMs": 250,
+            "holdMs": 200
+          },
+          "interruption": "tap"
+        },
+        {
+          "tap": {
+            "type": "key",
+            "key": "return_or_enter"
+          },
+          "index": 3,
+          "terminal": true,
+          "timing": {
+            "tapWindowMs": 250,
+            "holdMs": 200
+          },
+          "interruption": "tap"
+        }
+      ]
+    }
+  ],
+  "statistics": {
+    "manipulators": 10,
+    "timers": 5,
+    "conditions": 41,
+    "variables": 3,
+    "bytes": 13702,
+    "states": 11
+  },
+  "passes": [
+    {
+      "name": "validate / normalize",
+      "detail": "8 bindings; defaults resolved; identifiers isolated by project."
+    },
+    {
+      "name": "elaborate",
+      "detail": "2 timed gesture machines with explicit output ownership."
+    },
+    {
+      "name": "analyze interactions",
+      "detail": "Continuation priority and projected layer effects across the whole program."
+    },
+    {
+      "name": "simplify",
+      "detail": "Terminal waiting states and unused hold states omitted; 0 unreachable layers removed."
+    },
+    {
+      "name": "lower",
+      "detail": "Native mappings, phase-guarded timers, lazy modifier ownership, and layer expressions."
+    },
+    {
+      "name": "optimize / emit",
+      "detail": "Unreachable timeout actions, transient writes, empty fields, and duplicate conditions removed; stable source maps."
+    }
+  ]
+}

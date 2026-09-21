@@ -1,0 +1,33 @@
+# Verification
+
+## Three independent checks
+
+1. `npm test` compares the specification interpreter with the interpreter for the emitted JSON subset. Fixed regressions check action identity, order, modifier context, and logical decision timestamps. Generated traces also compare optimized and unoptimized output. The suite checks invalid projects, references, deterministic output, export refusal, CLI round trips, immutable compilation, layout identity, state cleanup, and optimization savings.
+2. `npm run test:native` executes the actual pinned Karabiner basic manipulator engine. It checks action order and modifier context against the independent specification, final gesture/owner variables, balanced native modifier ownership, and released HID output keys. Prefix observations immediately before, at, and after deadlines verify when decisions become observable.
+3. `npm run test:browser` runs an isolated Chromium against the local editor. It checks layers, remapping, undo/redo, reload persistence, exclusive tap playback, gesture editing, invalid timing/JSON, import, downloaded asset contents, source-project saving, all four layouts, and a 390 px mobile viewport. The app was also exercised in the in-app browser.
+
+## Native adapter
+
+`native:build` pins Karabiner tag `v16.3.0` to commit `9312593e1a3bf72b94c63c524ebabe2637442e8a` and initializes its pinned submodules. It verifies HEAD before compilation. The adapter uses the upstream synthetic event-queue harness and pseudo-time dispatcher; it does not attach to a live keyboard or virtual device.
+
+`prepare-native-helper.py` makes a cached test-harness copy that reads per-manipulator timing parameters from JSON, exports final environment variables plus modifier ownership counts, and advances the expression clock with the pseudo-time dispatcher. A cached shadow of `manipulator_environment.hpp` replaces exactly one clock read with `native/test_clock.hpp`; evaluation, event handling, and the source checkout are unchanged. This test-only clock uses an epoch-sized int64 value plus trace milliseconds. It makes timestamp expiry deterministic instead of depending on elapsed test-run wall time. Native engine output is captured, then independently compared in TypeScript. The harness's output-capture mode is not used as a self-validating expected result.
+
+The adapter advances through potential timer deadlines and drains callbacks before equal-time input. HID report timestamps can retain originating event times and include native queue spacing; they are not treated as logical decision times. Prefix tests stop the engine at specified times and assert which actions have occurred. Lazy HID modifier restoration is checked using native ownership counts rather than assuming the final HID report must already show the restored flags.
+
+Reports are written to `.cache/native/conformance-report.json`. The conformance suite passes **2,510 cases**: optimized and unoptimized assets, fixed scenarios, 200 seeded generated traces, deadline prefixes, and three nondefault timing profiles including equal hold/window deadlines. One-shot checks cover optional expiry, key-down/terminal-release/hold/timeout activation, exact expiry boundaries, Escape, modifier preservation, mapped and unknown fallthrough, replacement, chaining, retained holds/continuations, and cancellation ordering with reversed binding order. Both optimizations are checked with 100 additional generated one-shot traces per timing/order combination. It separately reproduces the documented rule-removal limitation; that case is not presented as successful pending-tap cleanup.
+
+The native harness is macOS-only and needs Xcode command-line tools, git, and Python 3. TypeScript compilation, CLI tests, both simulators, and the editor are portable.
+
+## Regression process
+
+Generated tests use seed `0x4b4d4b`. If a specification/JSON mismatch occurs, a delta debugger removes trace events while preserving the mismatch and writes the reduced project/trace to `.cache/regressions/`. Promote that case into `tests/fixtures.ts` before changing lowering. Named regressions already preserve cases found during native development: terminal modifier release, old-stage cancellation, late rollover, frozen binding selection, and overlapping layer activators.
+
+When adding a lowering pattern, add specification fixtures first, compare optimized/unoptimized JSON, then require native conformance. If the engine cannot implement the behavior, add an actionable validation diagnostic. Do not weaken the specification to silently lose completed taps during an ordinary uninterrupted session.
+
+## Size and performance
+
+`npm run benchmark` compiles representative projects 50 times each after a warm-up and reports static counts and average compile time. On the initial local run, 17 / 65 / 123 bindings compiled in approximately **0.18 / 0.43 / 0.82 ms** and produced 19 / 73 / 139 manipulators. The added one-shot benchmark uses the same binding counts, compiles in approximately **0.20 / 0.66 / 1.27 ms**, and adds 11 consumption/cancellation handlers without adding timers. These are observations, not cross-machine performance guarantees.
+
+The eight-binding example uses 10 manipulators, five timer sites, and three variables. Optimization preserves those counts while reducing condition sites and machine states; unreachable overlays can reduce manipulator and timer counts. Timer sites describe potential callbacks in the JSON, not simultaneously pending timers. Layer-effect projection combines mutually exclusive pending branches without exponentially duplicating nested toggle expressions.
+
+The tests establish conformance for this subset and fixture space. They do not prove globally minimal JSON, every possible physical-device sequence, interactions with arbitrary externally enabled rules, application response to synthetic input, or safe variable cleanup when the engine deletes callbacks during device/rule teardown. See the lifecycle boundaries in [semantics](semantics.md).

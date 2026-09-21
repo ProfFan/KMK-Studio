@@ -1,0 +1,137 @@
+{
+  "version": 1,
+  "id": "studio",
+  "name": "Everyday, reimagined",
+  "layout": "mac",
+  "timing": {
+    "tapWindowMs": 250,
+    "holdMs": 200
+  },
+  "layers": [
+    {
+      "id": "base",
+      "name": "Base",
+      "bindings": [
+        {
+          "id": "caps-navigation",
+          "key": "caps_lock",
+          "behavior": {
+            "type": "dance",
+            "steps": [
+              {
+                "tap": {
+                  "type": "key",
+                  "key": "escape"
+                },
+                "hold": {
+                  "type": "layer",
+                  "layer": "nav",
+                  "mode": "momentary"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "id": "space-dance",
+          "key": "spacebar",
+          "behavior": {
+            "type": "dance",
+            "steps": [
+              {
+                "tap": {
+                  "type": "key",
+                  "key": "spacebar"
+                }
+              },
+              {
+                "tap": {
+                  "type": "key",
+                  "key": "period"
+                }
+              },
+              {
+                "tap": {
+                  "type": "key",
+                  "key": "return_or_enter"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "nav",
+      "name": "Navigation",
+      "bindings": [
+        {
+          "id": "nav-h",
+          "key": "h",
+          "behavior": {
+            "type": "map",
+            "action": {
+              "type": "key",
+              "key": "left_arrow"
+            }
+          }
+        },
+        {
+          "id": "nav-j",
+          "key": "j",
+          "behavior": {
+            "type": "map",
+            "action": {
+              "type": "key",
+              "key": "down_arrow"
+            }
+          }
+        },
+        {
+          "id": "nav-k",
+          "key": "k",
+          "behavior": {
+            "type": "map",
+            "action": {
+              "type": "key",
+              "key": "up_arrow"
+            }
+          }
+        },
+        {
+          "id": "nav-l",
+          "key": "l",
+          "behavior": {
+            "type": "map",
+            "action": {
+              "type": "key",
+              "key": "right_arrow"
+            }
+          }
+        },
+        {
+          "id": "nav-u",
+          "key": "u",
+          "behavior": {
+            "type": "map",
+            "action": {
+              "type": "key",
+              "key": "page_up"
+            }
+          }
+        },
+        {
+          "id": "nav-o",
+          "key": "o",
+          "behavior": {
+            "type": "map",
+            "action": {
+              "type": "key",
+              "key": "page_down"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

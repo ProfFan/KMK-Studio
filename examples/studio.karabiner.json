@@ -1,0 +1,708 @@
+{
+  "title": "Everyday, reimagined",
+  "rules": [
+    {
+      "description": "KMK · Everyday, reimagined (Karabiner 16.3.0)",
+      "manipulators": [
+        {
+          "type": "basic",
+          "description": "Base · spacebar · 3 presses",
+          "from": {
+            "key_code": "spacebar",
+            "modifiers": {
+              "optional": [
+                "any"
+              ]
+            }
+          },
+          "conditions": [
+            {
+              "type": "variable_if",
+              "name": "kmk_00730074007500640069006f_b00730070006100630065002d00640061006e00630065",
+              "value": 22
+            }
+          ],
+          "parameters": {
+            "basic.to_delayed_action_delay_milliseconds": 2147483647
+          },
+          "to": [
+            {
+              "set_variable": {
+                "name": "kmk_00730074007500640069006f_b00730070006100630065002d00640061006e00630065",
+                "value": 31
+              }
+            }
+          ],
+          "to_after_key_up": [
+            {
+              "key_code": "return_or_enter",
+              "repeat": false,
+              "conditions": [
+                {
+                  "type": "variable_if",
+                  "name": "kmk_00730074007500640069006f_b00730070006100630065002d00640061006e00630065",
+                  "value": 31
+                }
+              ]
+            },
+            {
+              "set_variable": {
+                "name": "kmk_00730074007500640069006f_b00730070006100630065002d00640061006e00630065",
+                "value": 0
+              },
+              "conditions": []
+            }
+          ],
+          "to_delayed_action": {
+            "to_if_invoked": [
+              {
+                "key_code": "return_or_enter",
+                "repeat": false,
+                "conditions": [
+                  {
+                    "type": "expression_if",
+                    "expression": "kmk_00730074007500640069006f_b00730070006100630065002d00640061006e00630065 == 31 or kmk_00730074007500640069006f_b00730070006100630065002d00640061006e00630065 == 32"
+                  }
+                ]
+              },
+              {
+                "set_variable": {
+                  "name": "kmk_00730074007500640069006f_b00730070006100630065002d00640061006e00630065",
+                  "value": 0
+                },
+                "conditions": [
+                  {
+                    "type": "variable_if",
+                    "name": "kmk_00730074007500640069006f_b00730070006100630065002d00640061006e00630065",
+                    "value": 32
+                  }
+                ]
+              },
+              {
+                "set_variable": {
+                  "name": "kmk_00730074007500640069006f_b00730070006100630065002d00640061006e00630065",
+                  "value": 34
+                },
+                "conditions": [
+                  {
+                    "type": "variable_if",
+                    "name": "kmk_00730074007500640069006f_b00730070006100630065002d00640061006e00630065",
+                    "value": 31
+                  }
+                ]
+              }
+            ],
+            "to_if_canceled": [
+              {
+                "key_code": "return_or_enter",
+                "repeat": false,
+                "conditions": [
+                  {
+                    "type": "variable_if",
+                    "name": "kmk_00730074007500640069006f_b00730070006100630065002d00640061006e00630065",
+                    "value": 32
+                  }
+                ]
+              },
+              {
+                "key_code": "return_or_enter",
+                "repeat": false,
+                "conditions": [
+                  {
+                    "type": "variable_if",
+                    "name": "kmk_00730074007500640069006f_b00730070006100630065002d00640061006e00630065",
+                    "value": 31
+                  }
+                ]
+              },
+              {
+                "set_variable": {
+                  "name": "kmk_00730074007500640069006f_b00730070006100630065002d00640061006e00630065",
+                  "value": 0
+                },
+                "conditions": [
+                  {
+                    "type": "variable_if",
+                    "name": "kmk_00730074007500640069006f_b00730070006100630065002d00640061006e00630065",
+                    "value": 32
+                  }
+                ]
+              },
+              {
+                "set_variable": {
+                  "name": "kmk_00730074007500640069006f_b00730070006100630065002d00640061006e00630065",
+                  "value": 34
+                },
+                "conditions": [
+                  {
+                    "type": "variable_if",
+                    "name": "kmk_00730074007500640069006f_b00730070006100630065002d00640061006e00630065",
+                    "value": 31
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "type": "basic",
+          "description": "Base · spacebar · 2 presses",
+          "from": {
+            "key_code": "spacebar",
+            "modifiers": {
+              "optional": [
+                "any"
+              ]
+            }
+          },
+          "conditions": [
+            {
+              "type": "variable_if",
+              "name": "kmk_00730074007500640069006f_b00730070006100630065002d00640061006e00630065",
+              "value": 12
+            }
+          ],
+          "parameters": {
+            "basic.to_delayed_action_delay_milliseconds": 250
+          },
+          "to": [
+            {
+              "set_variable": {
+                "name": "kmk_00730074007500640069006f_b00730070006100630065002d00640061006e00630065",
+                "value": 21
+              }
+            }
+          ],
+          "to_after_key_up": [
+            {
+              "set_variable": {
+                "name": "kmk_00730074007500640069006f_b00730070006100630065002d00640061006e00630065",
+                "value": 22
+              },
+              "conditions": [
+                {
+                  "type": "variable_if",
+                  "name": "kmk_00730074007500640069006f_b00730070006100630065002d00640061006e00630065",
+                  "value": 21
+                }
+              ]
+            },
+            {
+              "set_variable": {
+                "name": "kmk_00730074007500640069006f_b00730070006100630065002d00640061006e00630065",
+                "value": 0
+              },
+              "conditions": [
+                {
+                  "type": "expression_if",
+                  "expression": "kmk_00730074007500640069006f_b00730070006100630065002d00640061006e00630065 != 21"
+                }
+              ]
+            }
+          ],
+          "to_delayed_action": {
+            "to_if_invoked": [
+              {
+                "key_code": "period",
+                "repeat": false,
+                "conditions": [
+                  {
+                    "type": "expression_if",
+                    "expression": "kmk_00730074007500640069006f_b00730070006100630065002d00640061006e00630065 == 21 or kmk_00730074007500640069006f_b00730070006100630065002d00640061006e00630065 == 22"
+                  }
+                ]
+              },
+              {
+                "set_variable": {
+                  "name": "kmk_00730074007500640069006f_b00730070006100630065002d00640061006e00630065",
+                  "value": 0
+                },
+                "conditions": [
+                  {
+                    "type": "variable_if",
+                    "name": "kmk_00730074007500640069006f_b00730070006100630065002d00640061006e00630065",
+                    "value": 22
+                  }
+                ]
+              },
+              {
+                "set_variable": {
+                  "name": "kmk_00730074007500640069006f_b00730070006100630065002d00640061006e00630065",
+                  "value": 24
+                },
+                "conditions": [
+                  {
+                    "type": "variable_if",
+                    "name": "kmk_00730074007500640069006f_b00730070006100630065002d00640061006e00630065",
+                    "value": 21
+                  }
+                ]
+              }
+            ],
+            "to_if_canceled": [
+              {
+                "key_code": "period",
+                "repeat": false,
+                "conditions": [
+                  {
+                    "type": "variable_if",
+                    "name": "kmk_00730074007500640069006f_b00730070006100630065002d00640061006e00630065",
+                    "value": 22
+                  }
+                ]
+              },
+              {
+                "key_code": "period",
+                "repeat": false,
+                "conditions": [
+                  {
+                    "type": "variable_if",
+                    "name": "kmk_00730074007500640069006f_b00730070006100630065002d00640061006e00630065",
+                    "value": 21
+                  }
+                ]
+              },
+              {
+                "set_variable": {
+                  "name": "kmk_00730074007500640069006f_b00730070006100630065002d00640061006e00630065",
+                  "value": 0
+                },
+                "conditions": [
+                  {
+                    "type": "variable_if",
+                    "name": "kmk_00730074007500640069006f_b00730070006100630065002d00640061006e00630065",
+                    "value": 22
+                  }
+                ]
+              },
+              {
+                "set_variable": {
+                  "name": "kmk_00730074007500640069006f_b00730070006100630065002d00640061006e00630065",
+                  "value": 24
+                },
+                "conditions": [
+                  {
+                    "type": "variable_if",
+                    "name": "kmk_00730074007500640069006f_b00730070006100630065002d00640061006e00630065",
+                    "value": 21
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "type": "basic",
+          "description": "Base · caps_lock · 1 press",
+          "from": {
+            "key_code": "caps_lock",
+            "modifiers": {
+              "optional": [
+                "any"
+              ]
+            }
+          },
+          "parameters": {
+            "basic.to_delayed_action_delay_milliseconds": 250,
+            "basic.to_if_held_down_threshold_milliseconds": 200
+          },
+          "to": [
+            {
+              "set_variable": {
+                "name": "kmk_00730074007500640069006f_b0063006100700073002d006e0061007600690067006100740069006f006e",
+                "value": 11
+              }
+            }
+          ],
+          "to_after_key_up": [
+            {
+              "key_code": "escape",
+              "repeat": false,
+              "conditions": [
+                {
+                  "type": "variable_if",
+                  "name": "kmk_00730074007500640069006f_b0063006100700073002d006e0061007600690067006100740069006f006e",
+                  "value": 11
+                }
+              ]
+            },
+            {
+              "set_variable": {
+                "name": "kmk_00730074007500640069006f_b0063006100700073002d006e0061007600690067006100740069006f006e",
+                "value": 0
+              },
+              "conditions": []
+            },
+            {
+              "set_variable": {
+                "name": "kmk_00730074007500640069006f_b0063006100700073002d006e0061007600690067006100740069006f006e_o006e00610076",
+                "value": 0
+              }
+            }
+          ],
+          "to_delayed_action": {
+            "to_if_invoked": [],
+            "to_if_canceled": [
+              {
+                "key_code": "escape",
+                "repeat": false,
+                "conditions": [
+                  {
+                    "type": "variable_if",
+                    "name": "kmk_00730074007500640069006f_b0063006100700073002d006e0061007600690067006100740069006f006e",
+                    "value": 12
+                  }
+                ]
+              },
+              {
+                "set_variable": {
+                  "name": "kmk_00730074007500640069006f_b0063006100700073002d006e0061007600690067006100740069006f006e_o006e00610076",
+                  "value": 1
+                },
+                "conditions": [
+                  {
+                    "type": "variable_if",
+                    "name": "kmk_00730074007500640069006f_b0063006100700073002d006e0061007600690067006100740069006f006e",
+                    "value": 11
+                  }
+                ]
+              },
+              {
+                "set_variable": {
+                  "name": "kmk_00730074007500640069006f_b0063006100700073002d006e0061007600690067006100740069006f006e",
+                  "value": 0
+                },
+                "conditions": [
+                  {
+                    "type": "variable_if",
+                    "name": "kmk_00730074007500640069006f_b0063006100700073002d006e0061007600690067006100740069006f006e",
+                    "value": 12
+                  }
+                ]
+              },
+              {
+                "set_variable": {
+                  "name": "kmk_00730074007500640069006f_b0063006100700073002d006e0061007600690067006100740069006f006e",
+                  "value": 15
+                },
+                "conditions": [
+                  {
+                    "type": "variable_if",
+                    "name": "kmk_00730074007500640069006f_b0063006100700073002d006e0061007600690067006100740069006f006e",
+                    "value": 11
+                  }
+                ]
+              }
+            ]
+          },
+          "to_if_held_down": [
+            {
+              "set_variable": {
+                "name": "kmk_00730074007500640069006f_b0063006100700073002d006e0061007600690067006100740069006f006e",
+                "value": 15
+              },
+              "conditions": [
+                {
+                  "type": "variable_if",
+                  "name": "kmk_00730074007500640069006f_b0063006100700073002d006e0061007600690067006100740069006f006e",
+                  "value": 11
+                }
+              ]
+            },
+            {
+              "set_variable": {
+                "name": "kmk_00730074007500640069006f_b0063006100700073002d006e0061007600690067006100740069006f006e_o006e00610076",
+                "value": 1
+              },
+              "conditions": [
+                {
+                  "type": "variable_if",
+                  "name": "kmk_00730074007500640069006f_b0063006100700073002d006e0061007600690067006100740069006f006e",
+                  "value": 11
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "basic",
+          "description": "Base · spacebar · 1 press",
+          "from": {
+            "key_code": "spacebar",
+            "modifiers": {
+              "optional": [
+                "any"
+              ]
+            }
+          },
+          "parameters": {
+            "basic.to_delayed_action_delay_milliseconds": 250
+          },
+          "to": [
+            {
+              "set_variable": {
+                "name": "kmk_00730074007500640069006f_b00730070006100630065002d00640061006e00630065",
+                "value": 11
+              }
+            }
+          ],
+          "to_after_key_up": [
+            {
+              "set_variable": {
+                "name": "kmk_00730074007500640069006f_b00730070006100630065002d00640061006e00630065",
+                "value": 12
+              },
+              "conditions": [
+                {
+                  "type": "variable_if",
+                  "name": "kmk_00730074007500640069006f_b00730070006100630065002d00640061006e00630065",
+                  "value": 11
+                }
+              ]
+            },
+            {
+              "set_variable": {
+                "name": "kmk_00730074007500640069006f_b00730070006100630065002d00640061006e00630065",
+                "value": 0
+              },
+              "conditions": [
+                {
+                  "type": "expression_if",
+                  "expression": "kmk_00730074007500640069006f_b00730070006100630065002d00640061006e00630065 != 11"
+                }
+              ]
+            }
+          ],
+          "to_delayed_action": {
+            "to_if_invoked": [
+              {
+                "key_code": "spacebar",
+                "repeat": false,
+                "conditions": [
+                  {
+                    "type": "expression_if",
+                    "expression": "kmk_00730074007500640069006f_b00730070006100630065002d00640061006e00630065 == 11 or kmk_00730074007500640069006f_b00730070006100630065002d00640061006e00630065 == 12"
+                  }
+                ]
+              },
+              {
+                "set_variable": {
+                  "name": "kmk_00730074007500640069006f_b00730070006100630065002d00640061006e00630065",
+                  "value": 0
+                },
+                "conditions": [
+                  {
+                    "type": "variable_if",
+                    "name": "kmk_00730074007500640069006f_b00730070006100630065002d00640061006e00630065",
+                    "value": 12
+                  }
+                ]
+              },
+              {
+                "set_variable": {
+                  "name": "kmk_00730074007500640069006f_b00730070006100630065002d00640061006e00630065",
+                  "value": 14
+                },
+                "conditions": [
+                  {
+                    "type": "variable_if",
+                    "name": "kmk_00730074007500640069006f_b00730070006100630065002d00640061006e00630065",
+                    "value": 11
+                  }
+                ]
+              }
+            ],
+            "to_if_canceled": [
+              {
+                "key_code": "spacebar",
+                "repeat": false,
+                "conditions": [
+                  {
+                    "type": "variable_if",
+                    "name": "kmk_00730074007500640069006f_b00730070006100630065002d00640061006e00630065",
+                    "value": 12
+                  }
+                ]
+              },
+              {
+                "key_code": "spacebar",
+                "repeat": false,
+                "conditions": [
+                  {
+                    "type": "variable_if",
+                    "name": "kmk_00730074007500640069006f_b00730070006100630065002d00640061006e00630065",
+                    "value": 11
+                  }
+                ]
+              },
+              {
+                "set_variable": {
+                  "name": "kmk_00730074007500640069006f_b00730070006100630065002d00640061006e00630065",
+                  "value": 0
+                },
+                "conditions": [
+                  {
+                    "type": "variable_if",
+                    "name": "kmk_00730074007500640069006f_b00730070006100630065002d00640061006e00630065",
+                    "value": 12
+                  }
+                ]
+              },
+              {
+                "set_variable": {
+                  "name": "kmk_00730074007500640069006f_b00730070006100630065002d00640061006e00630065",
+                  "value": 14
+                },
+                "conditions": [
+                  {
+                    "type": "variable_if",
+                    "name": "kmk_00730074007500640069006f_b00730070006100630065002d00640061006e00630065",
+                    "value": 11
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "type": "basic",
+          "description": "Navigation · o",
+          "from": {
+            "key_code": "o",
+            "modifiers": {
+              "optional": [
+                "any"
+              ]
+            }
+          },
+          "conditions": [
+            {
+              "type": "expression_if",
+              "expression": "(((kmk_00730074007500640069006f_l006e00610076 != 0 or (kmk_00730074007500640069006f_b0063006100700073002d006e0061007600690067006100740069006f006e_o006e00610076 != 0)) and ((kmk_00730074007500640069006f_b0063006100700073002d006e0061007600690067006100740069006f006e == 11)) == 0) or ((kmk_00730074007500640069006f_b0063006100700073002d006e0061007600690067006100740069006f006e == 11) and 1))"
+            }
+          ],
+          "to": [
+            {
+              "key_code": "page_down"
+            }
+          ]
+        },
+        {
+          "type": "basic",
+          "description": "Navigation · u",
+          "from": {
+            "key_code": "u",
+            "modifiers": {
+              "optional": [
+                "any"
+              ]
+            }
+          },
+          "conditions": [
+            {
+              "type": "expression_if",
+              "expression": "(((kmk_00730074007500640069006f_l006e00610076 != 0 or (kmk_00730074007500640069006f_b0063006100700073002d006e0061007600690067006100740069006f006e_o006e00610076 != 0)) and ((kmk_00730074007500640069006f_b0063006100700073002d006e0061007600690067006100740069006f006e == 11)) == 0) or ((kmk_00730074007500640069006f_b0063006100700073002d006e0061007600690067006100740069006f006e == 11) and 1))"
+            }
+          ],
+          "to": [
+            {
+              "key_code": "page_up"
+            }
+          ]
+        },
+        {
+          "type": "basic",
+          "description": "Navigation · l",
+          "from": {
+            "key_code": "l",
+            "modifiers": {
+              "optional": [
+                "any"
+              ]
+            }
+          },
+          "conditions": [
+            {
+              "type": "expression_if",
+              "expression": "(((kmk_00730074007500640069006f_l006e00610076 != 0 or (kmk_00730074007500640069006f_b0063006100700073002d006e0061007600690067006100740069006f006e_o006e00610076 != 0)) and ((kmk_00730074007500640069006f_b0063006100700073002d006e0061007600690067006100740069006f006e == 11)) == 0) or ((kmk_00730074007500640069006f_b0063006100700073002d006e0061007600690067006100740069006f006e == 11) and 1))"
+            }
+          ],
+          "to": [
+            {
+              "key_code": "right_arrow"
+            }
+          ]
+        },
+        {
+          "type": "basic",
+          "description": "Navigation · k",
+          "from": {
+            "key_code": "k",
+            "modifiers": {
+              "optional": [
+                "any"
+              ]
+            }
+          },
+          "conditions": [
+            {
+              "type": "expression_if",
+              "expression": "(((kmk_00730074007500640069006f_l006e00610076 != 0 or (kmk_00730074007500640069006f_b0063006100700073002d006e0061007600690067006100740069006f006e_o006e00610076 != 0)) and ((kmk_00730074007500640069006f_b0063006100700073002d006e0061007600690067006100740069006f006e == 11)) == 0) or ((kmk_00730074007500640069006f_b0063006100700073002d006e0061007600690067006100740069006f006e == 11) and 1))"
+            }
+          ],
+          "to": [
+            {
+              "key_code": "up_arrow"
+            }
+          ]
+        },
+        {
+          "type": "basic",
+          "description": "Navigation · j",
+          "from": {
+            "key_code": "j",
+            "modifiers": {
+              "optional": [
+                "any"
+              ]
+            }
+          },
+          "conditions": [
+            {
+              "type": "expression_if",
+              "expression": "(((kmk_00730074007500640069006f_l006e00610076 != 0 or (kmk_00730074007500640069006f_b0063006100700073002d006e0061007600690067006100740069006f006e_o006e00610076 != 0)) and ((kmk_00730074007500640069006f_b0063006100700073002d006e0061007600690067006100740069006f006e == 11)) == 0) or ((kmk_00730074007500640069006f_b0063006100700073002d006e0061007600690067006100740069006f006e == 11) and 1))"
+            }
+          ],
+          "to": [
+            {
+              "key_code": "down_arrow"
+            }
+          ]
+        },
+        {
+          "type": "basic",
+          "description": "Navigation · h",
+          "from": {
+            "key_code": "h",
+            "modifiers": {
+              "optional": [
+                "any"
+              ]
+            }
+          },
+          "conditions": [
+            {
+              "type": "expression_if",
+              "expression": "(((kmk_00730074007500640069006f_l006e00610076 != 0 or (kmk_00730074007500640069006f_b0063006100700073002d006e0061007600690067006100740069006f006e_o006e00610076 != 0)) and ((kmk_00730074007500640069006f_b0063006100700073002d006e0061007600690067006100740069006f006e == 11)) == 0) or ((kmk_00730074007500640069006f_b0063006100700073002d006e0061007600690067006100740069006f006e == 11) and 1))"
+            }
+          ],
+          "to": [
+            {
+              "key_code": "left_arrow"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

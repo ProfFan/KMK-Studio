@@ -1,0 +1,9 @@
+{
+  "name": "@kmk/simulator",
+  "version": "0.1.0",
+  "type": "module",
+  "exports": "./src/index.ts",
+  "dependencies": {
+    "@kmk/compiler": "*"
+  }
+}

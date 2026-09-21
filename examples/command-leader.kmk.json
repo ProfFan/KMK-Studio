@@ -1,0 +1,90 @@
+{
+  "version": 1,
+  "id": "command-leader",
+  "name": "Double Command leader",
+  "layout": "mac",
+  "timing": {
+    "tapWindowMs": 250,
+    "holdMs": 200
+  },
+  "layers": [
+    {
+      "id": "base",
+      "name": "Base",
+      "bindings": [
+        {
+          "id": "leader",
+          "key": "left_command",
+          "behavior": {
+            "type": "dance",
+            "steps": [
+              {
+                "tap": {
+                  "type": "block"
+                },
+                "hold": {
+                  "type": "key",
+                  "key": "left_command"
+                }
+              },
+              {
+                "tap": {
+                  "type": "layer",
+                  "layer": "nav",
+                  "mode": "oneshot",
+                  "timeoutMs": 1000
+                },
+                "hold": {
+                  "type": "key",
+                  "key": "left_command"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "nav",
+      "name": "Navigation",
+      "bindings": [
+        {
+          "id": "nav-h",
+          "key": "h",
+          "behavior": {
+            "type": "map",
+            "action": {
+              "type": "key",
+              "key": "left_arrow"
+            }
+          }
+        },
+        {
+          "id": "nav-s",
+          "key": "s",
+          "behavior": {
+            "type": "dance",
+            "steps": [
+              {
+                "tap": {
+                  "type": "key",
+                  "key": "page_up"
+                },
+                "hold": {
+                  "type": "key",
+                  "key": "left_control"
+                }
+              },
+              {
+                "tap": {
+                  "type": "key",
+                  "key": "page_down"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

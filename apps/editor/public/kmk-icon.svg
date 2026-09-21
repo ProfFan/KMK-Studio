@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <title>KMK keyboard studio</title>
+  <rect x="2" y="2" width="60" height="60" rx="14" fill="#234c3e" />
+  <rect x="9" y="9" width="46" height="46" rx="9" fill="none" stroke="#9db5a4" stroke-width="2" />
+  <path d="M23 20v24m18-24L24 33m6-5 12 16" fill="none" stroke="#faf9f5" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" />
+  <circle cx="52" cy="52" r="7" fill="#da6540" />
+</svg>
