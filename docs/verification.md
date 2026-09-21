@@ -4,7 +4,7 @@
 
 1. `npm test` compares the specification interpreter with the interpreter for the emitted JSON subset. Fixed regressions check action identity, order, modifier context, and logical decision timestamps. Generated traces also compare optimized and unoptimized output. The suite checks invalid projects, references, deterministic output, export refusal, CLI round trips, immutable compilation, layout identity, state cleanup, and optimization savings.
 2. `npm run test:native` executes the actual pinned Karabiner basic manipulator engine. It checks action order and modifier context against the independent specification, final gesture/owner variables, balanced native modifier ownership, and released HID output keys. Prefix observations immediately before, at, and after deadlines verify when decisions become observable.
-3. `npm run test:browser` runs an isolated Chromium against the local editor. It checks layers, remapping, undo/redo, reload persistence, exclusive tap playback, gesture editing, invalid timing/JSON, import, downloaded asset contents, source-project saving, all four layouts, and a 390 px mobile viewport. The app was also exercised in the in-app browser.
+3. `npm run test:browser` runs an isolated Chromium against the local editor. It checks layers, remapping, undo/redo, reload persistence, exclusive tap playback, gesture editing, invalid timing/JSON, import, single-rule export contents, clipboard copying and manual fallback, modal focus/dismissal and screenshots, source-project saving, all four layouts, and a 390 px mobile viewport. The app was also exercised in the in-app browser.
 
 ## Native adapter
 

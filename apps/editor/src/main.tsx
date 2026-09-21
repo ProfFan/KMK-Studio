@@ -17,6 +17,7 @@ import {
 } from "@kmk/compiler";
 import { simulateProject } from "@kmk/simulator";
 import { layoutRows } from "./layouts.ts";
+import { ExportDialog } from "./ExportDialog.tsx";
 import "./style.css";
 
 const STORAGE = "kmk.project.v1";
@@ -37,8 +38,11 @@ function load(): { p: Project; message: string } {
     const raw = localStorage.getItem(STORAGE);
     if (raw) {
       const p = JSON.parse(raw);
-      if (!validate(p).some((d) => d.severity === "error"))
+      if (!validate(p).some((d) => d.severity === "error")) {
+        if (p.id === "studio" && p.name === "Everyday, reimagined")
+          p.name = "Default Project";
         return { p, message: "" };
+      }
       return {
         p: exampleProject(),
         message:
@@ -316,9 +320,11 @@ const presets: Record<string, InputEvent[]> = {
 function Timeline({
   project,
   selectedKey,
+  paused,
 }: {
   project: Project;
   selectedKey: string;
+  paused: boolean;
 }) {
   const [events, setEvents] = useState<InputEvent[]>(presets["Double tap"]);
   const [draft, setDraft] = useState("");
@@ -377,6 +383,10 @@ function Timeline({
     );
   };
   useEffect(() => {
+    if (paused) {
+      setCapture(false);
+      return;
+    }
     if (!capture) return;
     const handler = (e: KeyboardEvent) => {
       e.preventDefault();
@@ -403,7 +413,7 @@ function Timeline({
       window.removeEventListener("keyup", handler);
       window.removeEventListener("blur", stop);
     };
-  }, [capture]);
+  }, [capture, paused]);
   const max = Math.max(
     600,
     ...events.map((e) => e.at),
@@ -584,6 +594,7 @@ function App() {
     [jsonError, setJsonError] = useState("");
   const importRef = useRef<HTMLInputElement>(null);
   const [settings, setSettings] = useState(false);
+  const [exportOpen, setExportOpen] = useState(false);
   const result = compile(p);
   const currentLayer = p.layers.find((l) => l.id === layerId) ?? p.layers[0];
   const binding = currentLayer.bindings.find((b) => b.key === selected);
@@ -813,12 +824,7 @@ function App() {
             <button
               className="primary"
               disabled={!result.ok || !!jsonError}
-              onClick={() => {
-                download(result.asset, `${p.id}.karabiner.json`);
-                setNotice(
-                  "Exported. Copy the JSON into ~/.config/karabiner/assets/complex_modifications/, then enable the complete KMK rule in Karabiner Settings.",
-                );
-              }}
+              onClick={() => setExportOpen(true)}
             >
               Export to Karabiner <span>↗</span>
             </button>
@@ -1266,7 +1272,11 @@ function App() {
                   )}
                 </aside>
               </div>
-              <Timeline project={p} selectedKey={selected} />
+              <Timeline
+                project={p}
+                selectedKey={selected}
+                paused={exportOpen}
+              />
             </>
           )}
           {tab === "json" && (
@@ -1381,6 +1391,12 @@ function App() {
           </footer>
         </main>
       </div>
+      {exportOpen && result.ok && !jsonError && result.asset && (
+        <ExportDialog
+          rule={result.asset.rules[0]}
+          onClose={() => setExportOpen(false)}
+        />
+      )}
       <input
         ref={importRef}
         hidden

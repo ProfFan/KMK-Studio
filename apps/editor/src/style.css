@@ -362,6 +362,177 @@ a {
 .primary > span {
   margin-left: 16px;
 }
+.export-dialog {
+  width: min(900px, calc(100% - 40px));
+  max-width: none;
+  max-height: calc(100dvh - 40px);
+  padding: 0;
+  margin: auto;
+  color: var(--ink);
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  box-shadow: 0 24px 90px #172d2640;
+  overflow: hidden;
+}
+.export-dialog[open] {
+  display: flex;
+  flex-direction: column;
+}
+.export-dialog::backdrop {
+  background: #1c2d2580;
+  backdrop-filter: blur(3px);
+}
+.export-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 24px 28px 20px;
+  border-bottom: 1px solid var(--line);
+  flex-shrink: 0;
+}
+.export-header h2 {
+  margin-top: 8px;
+  font-size: 24px;
+}
+.export-header p {
+  margin-top: 8px;
+  font-size: 13px;
+  line-height: 1.6;
+  color: #627168;
+}
+.export-header .icon-button {
+  width: 34px;
+  height: 34px;
+  flex-shrink: 0;
+  padding: 0;
+  font-size: 26px;
+}
+.export-body {
+  min-height: 0;
+  padding: 22px 28px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+.export-code label {
+  margin-bottom: 10px;
+  color: #485d50;
+  font-size: 12px;
+  font-weight: 600;
+}
+.export-code textarea {
+  display: block;
+  width: 100%;
+  height: 150px;
+  min-height: 120px;
+  padding: 16px;
+  resize: vertical;
+  font:
+    12px/1.65 ui-monospace,
+    SFMono-Regular,
+    Menlo,
+    monospace;
+  color: #324e40;
+  background: #f3f5ef;
+  border-color: #dce3d6;
+}
+.export-help {
+  margin-top: 25px;
+  font-size: 13px;
+  line-height: 1.65;
+}
+.export-help h3 {
+  font-size: 16px;
+  margin-bottom: 6px;
+}
+.export-help > p {
+  color: #627168;
+}
+.export-help figure {
+  margin: 18px 0 0;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  overflow: hidden;
+  background: #fff;
+}
+.export-help figcaption {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 12px;
+  row-gap: 2px;
+  color: #627168;
+  background: #f8f8f3;
+}
+.export-help figcaption > strong {
+  color: var(--ink);
+}
+.export-help figure a,
+.export-help img {
+  display: block;
+  width: 100%;
+}
+.export-help figure a:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -3px;
+}
+.export-help img {
+  height: auto;
+}
+.export-paste-note {
+  margin-top: 18px;
+}
+.export-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 18px 28px;
+  border-top: 1px solid var(--line);
+  background: #f6f7f0;
+  flex-shrink: 0;
+}
+.export-copy-status {
+  font-size: 12px;
+  line-height: 1.5;
+  color: #52684e;
+}
+.export-footer .primary {
+  margin: 0;
+  min-width: 118px;
+  flex-shrink: 0;
+  font-size: 13px;
+  padding: 12px 20px;
+}
+@media (max-width: 600px) {
+  .export-dialog {
+    width: calc(100% - 20px);
+    max-height: calc(100dvh - 20px);
+    border-radius: 12px;
+  }
+  .export-header,
+  .export-body,
+  .export-footer {
+    padding: 18px;
+  }
+  .export-header h2 {
+    font-size: 20px;
+  }
+  .export-code textarea {
+    height: 170px;
+  }
+  .export-help figcaption {
+    display: grid;
+    padding: 10px 12px;
+  }
+  .export-footer {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+}
 main {
   max-width: 1660px;
   margin: auto;

@@ -1,7 +1,7 @@
 {
   "version": 1,
   "id": "studio",
-  "name": "Everyday, reimagined",
+  "name": "Default Project",
   "layout": "mac",
   "timing": {
     "tapWindowMs": 250,

@@ -14,7 +14,9 @@ npm run dev
 
 The sample project has Caps Lock → Escape / hold Navigation, Space → space / double period / triple Return, and navigation on H/J/K/L/U/O. The four keyboard presets are presentation geometry; the searchable key list exposes all supported Karabiner identities.
 
-Select a layer and key, then configure the inspector. Later layers have higher priority. The playground accepts preset traces, timestamped JSON, and recorded browser input. Browser-reserved shortcuts and Fn may require scripted traces. Valid projects autosave on this device. Save project downloads the editable source; Export to Karabiner downloads the generated asset. The JSON tab applies edits only after validation. Undo/redo covers applied project changes.
+Select a layer and key, then configure the inspector. Later layers have higher priority. The playground accepts preset traces, timestamped JSON, and recorded browser input. Browser-reserved shortcuts and Fn may require scripted traces. Valid projects autosave on this device. Save project downloads the editable source; Export to Karabiner opens a dialog with the complete rule JSON and a Copy JSON button. The JSON tab applies edits only after validation. Undo/redo covers applied project changes.
+
+To install from the editor, click **Export to Karabiner → Copy JSON**. In **Karabiner-Elements Settings → Complex Modifications**, click **Add your own rule**, or **Edit** beside the existing KMK rule to update it. Replace all text in the rule editor with the copied JSON, then click **Save**. The dialog includes screenshots of both entry points and a selectable JSON field for manual copying if clipboard access is unavailable. It copies only the single rule object (`rules[0]`), which is the format Karabiner's rule editor expects.
 
 ## One-shot leaders
 
@@ -35,7 +37,7 @@ npm run kmk -- compile examples/studio.kmk.json --no-optimize
 
 `packages/cli/bin/kmk.mjs` also runs directly. `compile` writes only JSON to stdout unless `-o` is supplied. Errors prevent export; file output uses an atomic rename and cannot overwrite the source project. `explain` includes pass explanations, statistics, source mappings, and gesture machines. No command writes a live Karabiner profile.
 
-To install an exported file, copy it into `~/.config/karabiner/assets/complex_modifications/`, then add its **complete KMK rule** in Karabiner Settings → Complex Modifications. Keep the project together: rule order carries dependencies. Release keys and finish pending gestures before replacing or disabling a rule. Use distinct project IDs for projects enabled together. Other enabled Karabiner rules can consume input before KMK; conformance is for the complete generated asset in isolation.
+To install a file exported by the CLI, copy it into `~/.config/karabiner/assets/complex_modifications/`, then add its **complete KMK rule** in Karabiner Settings → Complex Modifications. Keep the project together: rule order carries dependencies. Release keys and finish pending gestures before replacing or disabling a rule. Use distinct project IDs for projects enabled together. Other enabled Karabiner rules can consume input before KMK; conformance is for the complete generated asset in isolation.
 
 ## TypeScript API
 

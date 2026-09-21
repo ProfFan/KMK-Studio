@@ -1,6 +1,7 @@
 import { test, expect } from "@playwright/test";
 import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
+import { compile } from "@kmk/compiler";
 
 test.beforeEach(async ({ page }) => {
   await page.goto("/");
@@ -50,9 +51,11 @@ test("exclusive gestures, timing validation, and timeline", async ({
   await expect(page.locator(".gesture-step")).toHaveCount(3);
 });
 
-test("JSON validation, project import/export, and atomic Karabiner asset", async ({
+test("JSON validation, project import/export, and copying the complete Karabiner rule", async ({
   page,
+  context,
 }) => {
+  await context.grantPermissions(["clipboard-read", "clipboard-write"]);
   await page
     .getByRole("button", { name: "{} Project JSON", exact: true })
     .click();
@@ -67,14 +70,54 @@ test("JSON validation, project import/export, and atomic Karabiner asset", async
   await expect(
     page.getByText("Project imported.", { exact: true }),
   ).toBeVisible();
-  const downloadPromise = page.waitForEvent("download");
-  await page.getByRole("button", { name: /Export to Karabiner/ }).click();
-  const asset = JSON.parse(
-    await readFile((await (await downloadPromise).path()) as string, "utf8"),
+  let downloads = 0;
+  page.on("download", () => downloads++);
+  const exportButton = page.getByRole("button", {
+    name: /Export to Karabiner/,
+  });
+  await exportButton.click();
+  const dialog = page.getByRole("dialog", { name: "Export to Karabiner" });
+  await expect(dialog).toBeVisible();
+  const text = await dialog
+    .getByLabel("Rule JSON", { exact: true })
+    .inputValue();
+  const source = JSON.parse(
+    await readFile(resolve("examples/studio.kmk.json"), "utf8"),
   );
-  expect(Object.keys(asset).sort()).toEqual(["rules", "title"]);
-  expect(asset.rules).toHaveLength(1);
-  expect(asset.rules[0].manipulators.length).toBeGreaterThan(0);
+  expect(JSON.parse(text)).toEqual(compile(source).asset!.rules[0]);
+  expect(Object.keys(JSON.parse(text)).sort()).toEqual([
+    "description",
+    "manipulators",
+  ]);
+  await expect(dialog.getByLabel("Rule JSON", { exact: true })).toHaveAttribute(
+    "readonly",
+    "",
+  );
+  await expect(
+    dialog.getByText("Add your own rule", { exact: true }),
+  ).toBeVisible();
+  await expect(dialog.getByText("Edit", { exact: true })).toBeVisible();
+  await expect(dialog.getByRole("img")).toHaveCount(2);
+  for (const image of await dialog.getByRole("img").all())
+    await expect
+      .poll(() =>
+        image.evaluate(
+          (img: HTMLImageElement) => img.complete && img.naturalWidth > 0,
+        ),
+      )
+      .toBe(true);
+  await dialog.getByRole("button", { name: "Copy JSON", exact: true }).click();
+  await expect(dialog.getByRole("status")).toHaveText(
+    "Copied. Ready to paste into Karabiner.",
+  );
+  expect(await page.evaluate(() => navigator.clipboard.readText())).toBe(text);
+  expect(downloads).toBe(0);
+  await page.screenshot({ path: ".cache/export-dialog-desktop.png" });
+  await page.keyboard.press("Tab");
+  await expect(dialog.locator(":focus")).toHaveCount(1);
+  await page.keyboard.press("Escape");
+  await expect(dialog).not.toBeVisible();
+  await expect(exportButton).toBeFocused();
   const save = page.waitForEvent("download");
   await page
     .getByRole("button", { name: "↧ Save project", exact: true })
@@ -113,6 +156,23 @@ test("all layouts render unique keys and mobile controls remain usable", async (
       () => document.documentElement.scrollWidth <= window.innerWidth,
     ),
   ).toBe(true);
+  await page.getByRole("button", { name: /Export to Karabiner/ }).click();
+  const dialog = page.getByRole("dialog", { name: "Export to Karabiner" });
+  await expect(dialog).toBeVisible();
+  const bounds = await dialog.boundingBox();
+  expect(bounds!.x).toBeGreaterThanOrEqual(0);
+  expect(bounds!.x + bounds!.width).toBeLessThanOrEqual(390);
+  expect(bounds!.y + bounds!.height).toBeLessThanOrEqual(844);
+  await expect(
+    dialog.getByRole("button", { name: "Copy JSON", exact: true }),
+  ).toBeInViewport();
+  await dialog.getByText("Edit", { exact: true }).scrollIntoViewIfNeeded();
+  await expect(dialog.getByText("Edit", { exact: true })).toBeInViewport();
+  await dialog.getByRole("img").last().scrollIntoViewIfNeeded();
+  await expect(dialog.getByRole("img").last()).toBeInViewport({ ratio: 1 });
+  await page.screenshot({ path: ".cache/export-dialog-mobile.png" });
+  await dialog.getByRole("button", { name: "Close export dialog" }).click();
+  await expect(dialog).not.toBeVisible();
 });
 
 test("one-shot expiry, persistence, timeline, and export", async ({ page }) => {
@@ -171,11 +231,64 @@ test("one-shot expiry, persistence, timeline, and export", async ({ page }) => {
   await expect(page.locator(".trace-summary strong")).toHaveText("H → H");
   await secondTap.scrollIntoViewIfNeeded();
   await page.screenshot({ path: ".cache/oneshot-editor.png", fullPage: true });
-  const downloadPromise = page.waitForEvent("download");
   await page.getByRole("button", { name: /Export to Karabiner/ }).click();
-  const asset = JSON.parse(
-    await readFile((await (await downloadPromise).path()) as string, "utf8"),
+  const rule = JSON.parse(
+    await page.getByLabel("Rule JSON", { exact: true }).inputValue(),
   );
-  expect(JSON.stringify(asset)).toContain("system.now.milliseconds + 500");
-  expect(asset.rules).toHaveLength(1);
+  expect(JSON.stringify(rule)).toContain("system.now.milliseconds + 500");
+  expect(Object.keys(rule).sort()).toEqual(["description", "manipulators"]);
+});
+
+test("export selects JSON for manual copying when clipboard access is denied", async ({
+  page,
+}) => {
+  await page.evaluate(() =>
+    Object.defineProperty(navigator, "clipboard", {
+      configurable: true,
+      value: {
+        writeText: () =>
+          Promise.reject(new DOMException("Denied", "NotAllowedError")),
+      },
+    }),
+  );
+  const originalOverflow = await page.evaluate(
+    () => document.body.style.overflow,
+  );
+  await page.getByRole("button", { name: /Export to Karabiner/ }).click();
+  const dialog = page.getByRole("dialog", { name: "Export to Karabiner" });
+  await dialog.getByRole("button", { name: "Copy JSON", exact: true }).click();
+  await expect(dialog.getByRole("status")).toContainText(
+    "The JSON is selected",
+  );
+  const json = dialog.getByLabel("Rule JSON", { exact: true });
+  await expect(json).toBeFocused();
+  expect(
+    await json.evaluate(
+      (el: HTMLTextAreaElement) => el.selectionEnd - el.selectionStart,
+    ),
+  ).toBe((await json.inputValue()).length);
+  await dialog.getByRole("button", { name: "Close export dialog" }).click();
+  expect(await page.evaluate(() => document.body.style.overflow)).toBe(
+    originalOverflow,
+  );
+  await page.getByRole("button", { name: /Export to Karabiner/ }).click();
+  await expect(dialog.getByRole("status")).not.toContainText("Couldn’t copy");
+  await page.mouse.click(2, 2);
+  await expect(dialog).not.toBeVisible();
+});
+
+test("opening export stops recording so Escape closes the dialog", async ({
+  page,
+}) => {
+  await page.getByRole("button", { name: "Record keys", exact: true }).click();
+  await expect(
+    page.getByRole("button", { name: "Stop recording", exact: true }),
+  ).toBeVisible();
+  await page.getByRole("button", { name: /Export to Karabiner/ }).click();
+  await expect(page.getByRole("dialog")).toBeVisible();
+  await page.keyboard.press("Escape");
+  await expect(page.getByRole("dialog")).not.toBeVisible();
+  await expect(
+    page.getByRole("button", { name: "Record keys", exact: true }),
+  ).toBeVisible();
 });

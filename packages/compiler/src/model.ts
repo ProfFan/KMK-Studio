@@ -108,7 +108,7 @@ export function createProject(): Project {
   return {
     version: 1,
     id: "my-keyboard",
-    name: "My keyboard",
+    name: "Default Project",
     layout: "mac",
     timing: { ...DEFAULT_TIMING },
     layers: [{ id: "base", name: "Base", bindings: [] }],
@@ -117,7 +117,6 @@ export function createProject(): Project {
 export function exampleProject(): Project {
   const p = createProject();
   p.id = "studio";
-  p.name = "Everyday, reimagined";
   p.layers.push({
     id: "nav",
     name: "Navigation",

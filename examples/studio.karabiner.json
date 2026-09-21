@@ -1,8 +1,8 @@
 {
-  "title": "Everyday, reimagined",
+  "title": "Default Project",
   "rules": [
     {
-      "description": "KMK · Everyday, reimagined (Karabiner 16.3.0)",
+      "description": "KMK · Default Project (Karabiner 16.3.0)",
       "manipulators": [
         {
           "type": "basic",
