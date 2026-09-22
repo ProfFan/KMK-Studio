@@ -25,8 +25,7 @@ a:hover {
   color: #b34e2d;
 }
 a:focus-visible,
-input:focus-visible,
-summary:focus-visible {
+input:focus-visible {
   outline: 3px solid #bc6447;
   outline-offset: 4px;
 }
@@ -372,18 +371,6 @@ figcaption span {
 }
 .docs-diagram > p {
   padding: 20px;
-}
-.docs-diagram details {
-  border-top: 1px solid #e6e9de;
-  padding: 12px 20px;
-  font-size: 12px;
-  color: #76816e;
-}
-.docs-diagram summary {
-  cursor: pointer;
-}
-.docs-diagram pre {
-  margin-bottom: 5px;
 }
 .docs-table {
   overflow-x: auto;

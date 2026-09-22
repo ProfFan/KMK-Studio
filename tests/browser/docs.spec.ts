@@ -93,7 +93,7 @@ test("documentation navigation, local diagrams, screenshots, and downloadable re
   expect(externalRequests).toEqual([]);
 });
 
-test("direct documentation visits, fragment reloads, source diagrams, and mobile layout", async ({
+test("direct documentation visits, fragment reloads, rendered diagrams, and mobile layout", async ({
   page,
 }) => {
   await page.goto("/docs/#oneshot");
@@ -102,9 +102,7 @@ test("direct documentation visits, fragment reloads, source diagrams, and mobile
   await page.reload();
   await expect(page.locator(".docs-diagram-canvas svg")).toHaveCount(5);
   await expect(page.locator("#oneshot-title")).toBeInViewport();
-  const source = page.locator("#oneshot details");
-  await source.getByText("View Mermaid source", { exact: true }).click();
-  await expect(source.locator("code")).toContainText("stateDiagram-v2");
+  await expect(page.locator(".docs-diagram details")).toHaveCount(0);
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto("/docs");
   await expect(page.getByRole("heading", { level: 1 })).toBeVisible();

@@ -65,20 +65,12 @@ export function Mermaid({
         />
       ) : (
         <p role={failed ? "alert" : "status"}>
-          {failed
-            ? "Diagram unavailable. The Mermaid source is below."
-            : "Drawing state diagram…"}
+          {failed ? "Diagram unavailable." : "Drawing state diagram…"}
         </p>
       )}
       <figcaption>
         {caption} <span>Scroll the diagram horizontally if needed.</span>
       </figcaption>
-      <details>
-        <summary>View Mermaid source</summary>
-        <pre>
-          <code>{source}</code>
-        </pre>
-      </details>
     </figure>
   );
 }
