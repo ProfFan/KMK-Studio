@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
 import {
   compile,
+  deviceIdentifier,
   CONSUMER_KEYS,
   exampleProject,
   holdPolicy,
@@ -332,9 +333,13 @@ function Timeline({
   const [capture, setCapture] = useState(false);
   const [error, setError] = useState("");
   const started = useRef(0);
+  // Browsers cannot identify physical keyboards. Preview the chosen device.
+  const device = project.deviceFilter
+    ? deviceIdentifier(project.deviceFilter)
+    : undefined;
   let result;
   try {
-    result = simulateProject(project, events);
+    result = simulateProject(project, events, undefined, device);
   } catch (e) {
     result = null;
   }
@@ -499,7 +504,7 @@ function Timeline({
                   throw new Error(
                     "Use an array of timestamped down/up/reset/invalidate events.",
                   );
-                simulateProject(project, v);
+                simulateProject(project, v, undefined, device);
                 setEvents(v);
                 setError("");
                 setEditing(false);
@@ -512,6 +517,12 @@ function Timeline({
           </button>
           {error && <p role="alert">{error}</p>}
         </div>
+      )}
+      {project.deviceFilter && (
+        <p className="hint">
+          Preview assumes the selected device. Browsers cannot identify which
+          keyboard sent a key.
+        </p>
       )}
       <div className="timeline-chart">
         <div className="time-scale">
@@ -785,6 +796,12 @@ function App() {
           <button onClick={() => download(p, `${p.id}.kmk.json`)}>
             ↧ Save project
           </button>
+          <a className="docs-link" href="/docs">
+            <span aria-hidden="true" className="help-icon">
+              ?
+            </span>{" "}
+            Docs
+          </a>
           <div className="local-footer">
             <span className="status-dot" /> Private. Local. Yours.
           </div>
@@ -852,7 +869,7 @@ function App() {
               className="subtle settings-toggle"
               onClick={() => setSettings(!settings)}
             >
-              ⚙ Timing & layout
+              ⚙ Global Settings
             </button>
           </div>
           {settings && (
@@ -891,6 +908,75 @@ function App() {
                   />
                 </label>
               ))}
+              <div className="device-settings">
+                <label>
+                  Apply modifications to
+                  <select
+                    aria-label="Device filter"
+                    value={p.deviceFilter?.type ?? "all"}
+                    onChange={(e) =>
+                      modify((p) => {
+                        if (e.target.value === "all") delete p.deviceFilter;
+                        else if (e.target.value === "built_in_keyboard")
+                          p.deviceFilter = { type: "built_in_keyboard" };
+                        else
+                          p.deviceFilter = {
+                            type: "vendor_product",
+                            vendorId: 0,
+                            productId: 0,
+                          };
+                      })
+                    }
+                  >
+                    <option value="all">All devices</option>
+                    <option value="vendor_product">
+                      Specific device (VID / PID)
+                    </option>
+                    <option value="built_in_keyboard">Built-in keyboard</option>
+                  </select>
+                </label>
+                {p.deviceFilter?.type === "vendor_product" && (
+                  <div className="device-fields">
+                    {(["vendorId", "productId"] as const).map((field) => (
+                      <label key={field}>
+                        {field === "vendorId"
+                          ? "Vendor ID (VID)"
+                          : "Product ID (PID)"}
+                        <input
+                          aria-label={
+                            field === "vendorId"
+                              ? "Vendor ID (VID)"
+                              : "Product ID (PID)"
+                          }
+                          type="number"
+                          min="0"
+                          max={Number.MAX_SAFE_INTEGER}
+                          step="1"
+                          value={
+                            p.deviceFilter?.type === "vendor_product" &&
+                            Number.isFinite(p.deviceFilter[field])
+                              ? p.deviceFilter[field]
+                              : ""
+                          }
+                          onChange={(e) =>
+                            modify((p) => {
+                              if (p.deviceFilter?.type === "vendor_product")
+                                p.deviceFilter[field] = e.target.valueAsNumber;
+                            })
+                          }
+                        />
+                      </label>
+                    ))}
+                  </div>
+                )}
+                <p className="hint">
+                  {p.deviceFilter?.type === "vendor_product"
+                    ? "Both IDs must match. Enter decimal values from Karabiner-EventViewer → Devices."
+                    : p.deviceFilter?.type === "built_in_keyboard"
+                      ? "Only the built-in keyboard, as identified by Karabiner (is_built_in_keyboard)."
+                      : "Applies to every device handled by Karabiner."}
+                </p>
+              </div>
             </section>
           )}
           <nav className="view-tabs" aria-label="Workspace view">
@@ -1387,7 +1473,7 @@ function App() {
               KMK <span className="muted">/</span> {total} assignments across{" "}
               {p.layers.length} layers
             </span>
-            <span>Compiled locally · Karabiner 16.3.0</span>
+            <span>Made with love by @FanOnRobotics</span>
           </footer>
         </main>
       </div>

@@ -15,6 +15,8 @@ Statistics count static manipulator sites, timer sites (delayed + held-down), co
 
 ## Why the backend is structured this way
 
+An optional project-wide device filter is lowered at the common manipulator emission point, so mappings, continuations, and one-shot helpers all receive a `device_if` guard. It adds one condition per manipulator without adding variables, timers, or manipulators. Device restrictions do not guard existing output cleanup or delayed callbacks; those remain owned by the originating context as in the native engine.
+
 Karabiner stops matching after the first manipulator consumes a key, yet basic manipulators run cancellation logic before that validity check. A continuation must therefore run before the previous stage's cancellation callback. Every delayed output and cleanup checks the old phase, so the old callback cannot erase the newly started stage.
 
 Conditions on output actions share a snapshot from the start of their action list. Variable expressions themselves see sequential writes. The lowering and JSON interpreter model those as different operations. Held key output must occupy the final position in its `to` list to remain owned until physical release. Layer changes must not make an originating release disappear.

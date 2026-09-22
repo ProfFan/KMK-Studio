@@ -1,0 +1,46 @@
+{
+  "device-filter": {
+    "width": 2264,
+    "height": 562
+  },
+  "holds": {
+    "width": 588,
+    "height": 1614
+  },
+  "layers": {
+    "width": 2880,
+    "height": 2000
+  },
+  "leader": {
+    "width": 588,
+    "height": 2422
+  },
+  "momentary": {
+    "width": 588,
+    "height": 708
+  },
+  "settings": {
+    "width": 2264,
+    "height": 432
+  },
+  "shortcuts": {
+    "width": 588,
+    "height": 668
+  },
+  "stages": {
+    "width": 588,
+    "height": 2668
+  },
+  "taps": {
+    "width": 588,
+    "height": 2026
+  },
+  "timeline": {
+    "width": 2264,
+    "height": 1008
+  },
+  "workspace": {
+    "width": 2880,
+    "height": 2000
+  }
+}

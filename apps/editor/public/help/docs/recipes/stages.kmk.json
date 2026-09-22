@@ -1,0 +1,58 @@
+{
+  "version": 1,
+  "id": "docs-stages",
+  "name": "Holds at every stage",
+  "layout": "mac",
+  "timing": {
+    "tapWindowMs": 250,
+    "holdMs": 200
+  },
+  "layers": [
+    {
+      "id": "base",
+      "name": "Base",
+      "bindings": [
+        {
+          "id": "caps-stages",
+          "key": "caps_lock",
+          "behavior": {
+            "type": "dance",
+            "steps": [
+              {
+                "tap": {
+                  "type": "key",
+                  "key": "escape"
+                },
+                "hold": {
+                  "type": "key",
+                  "key": "left_control"
+                }
+              },
+              {
+                "tap": {
+                  "type": "key",
+                  "key": "tab"
+                },
+                "hold": {
+                  "type": "key",
+                  "key": "left_option"
+                }
+              },
+              {
+                "tap": {
+                  "type": "key",
+                  "key": "return_or_enter"
+                },
+                "hold": {
+                  "type": "key",
+                  "key": "left_shift"
+                }
+              }
+            ],
+            "interruption": "hold"
+          }
+        }
+      ]
+    }
+  ]
+}

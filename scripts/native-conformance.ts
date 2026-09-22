@@ -1,9 +1,16 @@
 import assert from "node:assert/strict";
 import { writeFileSync } from "node:fs";
-import { compile, MODIFIERS, stateName, type InputEvent } from "@kmk/compiler";
+import {
+  compile,
+  MODIFIERS,
+  stateName,
+  type InputEvent,
+  type Project,
+} from "@kmk/compiler";
 import { simulateProject, simulateKarabiner } from "@kmk/simulator";
 import { fixtureProject, scenarios, trace } from "../tests/fixtures.ts";
-import { runNative } from "./oracle.ts";
+import { runNative, type NativeCase } from "./oracle.ts";
+import { deviceScenarios } from "../tests/device-fixtures.ts";
 import {
   oneShotProject,
   oneShotScenarios,
@@ -44,13 +51,14 @@ for (const name of [
       until,
     });
 }
-const cases = assets.flatMap((asset, i) =>
-  traces.map((t) => ({
-    ...t,
-    name: `${i ? "plain" : "optimized"} / ${t.name}`,
-    asset,
-    project: p,
-  })),
+const cases: (NativeCase & { project: Project })[] = assets.flatMap(
+  (asset, i) =>
+    traces.map((t) => ({
+      ...t,
+      name: `${i ? "plain" : "optimized"} / ${t.name}`,
+      asset,
+      project: p,
+    })),
 );
 // Equal hold/window deadlines and small/large timing overrides are separate
 // compiler inputs; they must not rely on the default timing in the test harness.
@@ -90,11 +98,18 @@ for (const timeout of [undefined, 300])
         });
     }
   }
+for (const c of deviceScenarios())
+  for (const optimize of [true, false])
+    cases.push({
+      ...c,
+      asset: compile(c.project, { optimize }).asset!,
+      name: `device filter optimize=${optimize}: ${c.name}`,
+    });
 const native = runNative(cases);
 let failures = 0;
 for (const [i, r] of native.entries()) {
   const c = cases[i],
-    reference = simulateProject(c.project, c.events, c.until);
+    reference = simulateProject(c.project, c.events, c.until, c.device);
   const expected = reference.output
     .filter(
       (e) =>

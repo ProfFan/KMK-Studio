@@ -48,6 +48,15 @@ export interface Layer {
   name: string;
   bindings: Binding[];
 }
+export type DeviceFilter =
+  | { type: "vendor_product"; vendorId: number; productId: number }
+  | { type: "built_in_keyboard" };
+/** The device properties used by Karabiner's device_if condition. */
+export interface DeviceIdentifier {
+  vendor_id?: number;
+  product_id?: number;
+  is_built_in_keyboard?: boolean;
+}
 export interface Project {
   version: 1;
   id: string;
@@ -55,6 +64,8 @@ export interface Project {
   layout: LayoutId;
   timing: Timing;
   layers: Layer[];
+  /** Omitted means all devices, preserving existing version-1 projects. */
+  deviceFilter?: DeviceFilter;
 }
 export interface Diagnostic {
   severity: "error" | "warning";
@@ -63,7 +74,8 @@ export interface Diagnostic {
   message: string;
 }
 export interface Condition {
-  type: "variable_if" | "variable_unless" | "expression_if";
+  type: "variable_if" | "variable_unless" | "expression_if" | "device_if";
+  identifiers?: DeviceIdentifier[];
   name?: string;
   value?: number;
   expression?: string;

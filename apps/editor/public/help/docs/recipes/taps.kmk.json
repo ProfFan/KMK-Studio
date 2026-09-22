@@ -1,0 +1,45 @@
+{
+  "version": 1,
+  "id": "docs-taps",
+  "name": "Three taps, three actions",
+  "layout": "mac",
+  "timing": {
+    "tapWindowMs": 250,
+    "holdMs": 200
+  },
+  "layers": [
+    {
+      "id": "base",
+      "name": "Base",
+      "bindings": [
+        {
+          "id": "space-dance",
+          "key": "spacebar",
+          "behavior": {
+            "type": "dance",
+            "steps": [
+              {
+                "tap": {
+                  "type": "key",
+                  "key": "spacebar"
+                }
+              },
+              {
+                "tap": {
+                  "type": "key",
+                  "key": "period"
+                }
+              },
+              {
+                "tap": {
+                  "type": "key",
+                  "key": "return_or_enter"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

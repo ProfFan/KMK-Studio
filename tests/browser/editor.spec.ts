@@ -133,7 +133,7 @@ test("all layouts render unique keys and mobile controls remain usable", async (
   page,
 }) => {
   await page
-    .getByRole("button", { name: "⚙ Timing & layout", exact: true })
+    .getByRole("button", { name: "⚙ Global Settings", exact: true })
     .click();
   for (const layout of ["mac", "ansi", "tkl", "sixty"]) {
     await page

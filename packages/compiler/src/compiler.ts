@@ -1,4 +1,9 @@
-import { holdPolicy, isModifier, MODIFIERS } from "./model.ts";
+import {
+  deviceIdentifier,
+  holdPolicy,
+  isModifier,
+  MODIFIERS,
+} from "./model.ts";
 import { validate } from "./validate.ts";
 import { normalize, elaborate, simplifyMachines } from "./passes.ts";
 export { normalize, elaborate, simplifyMachines } from "./passes.ts";
@@ -338,6 +343,13 @@ export function compile(
     return parts.length ? [expr(parts.join(" and "))] : [];
   };
   const emit = (m: Manipulator, l: Layer, b: Binding, phase: string) => {
+    // Gate every entry and continuation, including global one-shot helpers.
+    // Existing key-up contexts and delayed callbacks retain their ownership.
+    if (p.deviceFilter)
+      m.conditions = [
+        { type: "device_if", identifiers: [deviceIdentifier(p.deviceFilter)] },
+        ...(m.conditions ?? []),
+      ];
     sourceMap.push({
       manipulator: manipulators.length,
       bindingId: b.id,
@@ -579,7 +591,7 @@ export function compile(
     passes: [
       {
         name: "validate / normalize",
-        detail: `${all.length} bindings; defaults resolved; identifiers isolated by project.`,
+        detail: `${all.length} bindings; defaults resolved; identifiers isolated by project.${p.deviceFilter ? " Global device filter applied to every manipulator." : ""}`,
       },
       {
         name: "elaborate",

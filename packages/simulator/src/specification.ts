@@ -2,6 +2,7 @@ import { holdPolicy, MODIFIERS, validate } from "@kmk/compiler";
 import type {
   Action,
   Binding,
+  DeviceIdentifier,
   InputEvent,
   OutputEvent,
   Project,
@@ -15,6 +16,7 @@ export function simulateProject(
   project: Project,
   events: InputEvent[],
   until?: number,
+  device?: DeviceIdentifier,
 ): SimulationResult {
   validateTrace(events, until);
   const errors = validate(project).filter((d) => d.severity === "error");
@@ -26,8 +28,15 @@ export function simulateProject(
     pressed = new Set<string>();
   const modifiers = new Map<string, number>();
   const releases = new Map<string, (() => void)[]>();
+  const filter = project.deviceFilter;
+  const deviceMatches =
+    !filter ||
+    (filter.type === "built_in_keyboard"
+      ? device?.is_built_in_keyboard === true
+      : device?.vendor_id === filter.vendorId &&
+        device?.product_id === filter.productId);
   let now = 0,
-    enabled = true;
+    enabled = deviceMatches;
   type Gesture = {
     b: Binding;
     stage: number;
@@ -185,7 +194,7 @@ export function simulateProject(
       owners.clear();
       pressed.clear();
       modifiers.clear();
-      enabled = true;
+      enabled = deviceMatches;
       frame("reset");
       continue;
     }

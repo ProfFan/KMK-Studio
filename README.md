@@ -18,6 +18,18 @@ Select a layer and key, then configure the inspector. Later layers have higher p
 
 To install from the editor, click **Export to Karabiner → Copy JSON**. In **Karabiner-Elements Settings → Complex Modifications**, click **Add your own rule**, or **Edit** beside the existing KMK rule to update it. Replace all text in the rule editor with the copied JSON, then click **Save**. The dialog includes screenshots of both entry points and a selectable JSON field for manual copying if clipboard access is unavailable. It copies only the single rule object (`rules[0]`), which is the format Karabiner's rule editor expects.
 
+## Documentation
+
+Open **Docs** below Save project, or visit `/docs`, for the illustrated handbook: remaps, tap dances, staged holds, timing, layers, one-shot leaders, testing, export, and developer tools. It includes locally rendered Mermaid state diagrams and downloadable validated recipes. The production build emits both `index.html` and `docs/index.html`, so direct documentation visits work on static hosts without a server-side router.
+
+To refresh the checked-in editor screenshots after UI changes, run `npm run dev` and then `npm run docs:screenshots` in another terminal (install the test browser first with `npm run browser:install`). The capture script uses an isolated browser context and compiles the recipe projects before exporting them. Documentation content and diagrams live in `apps/editor/src/docs/`; recipe definitions live in `scripts/docs-projects.ts`.
+
+## Device filtering
+
+In **Global Settings → Apply modifications to**, choose **All devices**, **Specific device (VID / PID)**, or **Built-in keyboard**. Enter both IDs in decimal from Karabiner-EventViewer → Devices. Every generated manipulator receives the same `device_if` condition, including tap-dance continuation and one-shot handlers. Existing projects default to all devices. The playground assumes the selected device because browsers cannot identify physical keyboards.
+
+Project JSON uses `"deviceFilter": {"type":"vendor_product","vendorId":1452,"productId":832}` or `"deviceFilter": {"type":"built_in_keyboard"}`. Omit `deviceFilter` for all devices. Device filters gate event selection, not the already active gesture's native cancellation or release callbacks; they do not create independent layer/gesture state per physical keyboard. See the [device semantics](docs/semantics.md#global-device-filter).
+
 ## One-shot leaders
 
 In any action editor, choose **Layer → One-shot** and select the target layer. Leave **Expire if unused** unchecked to wait indefinitely, or enable it and enter a timeout (1–60000 ms). The next non-modifier key uses the layer and consumes it; Escape cancels. Unassigned keys still run their ordinary mapping and consume the activation. Holds and tap-dance continuations keep the binding they started with.

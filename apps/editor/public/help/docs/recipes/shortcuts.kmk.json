@@ -1,0 +1,33 @@
+{
+  "version": 1,
+  "id": "docs-shortcuts",
+  "name": "A shortcut on one key",
+  "layout": "mac",
+  "timing": {
+    "tapWindowMs": 250,
+    "holdMs": 200
+  },
+  "layers": [
+    {
+      "id": "base",
+      "name": "Base",
+      "bindings": [
+        {
+          "id": "command-palette",
+          "key": "f",
+          "behavior": {
+            "type": "map",
+            "action": {
+              "type": "key",
+              "key": "p",
+              "modifiers": [
+                "left_command",
+                "left_shift"
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

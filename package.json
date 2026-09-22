@@ -15,6 +15,7 @@
     "native:build": "bash scripts/build-native.sh",
     "test:browser": "PLAYWRIGHT_BROWSERS_PATH=.cache/playwright playwright test",
     "benchmark": "node --import tsx scripts/benchmark.ts",
+    "docs:screenshots": "PLAYWRIGHT_BROWSERS_PATH=.cache/playwright node --import tsx scripts/capture-docs.ts",
     "kmk": "node --import tsx packages/cli/src/main.ts",
     "browser:install": "PLAYWRIGHT_BROWSERS_PATH=.cache/playwright playwright install chromium --only-shell",
     "format": "prettier --write packages apps/editor/src scripts tests docs README.md package.json tsconfig.json playwright.config.ts",

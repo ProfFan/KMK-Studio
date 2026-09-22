@@ -1,12 +1,13 @@
 import { mkdirSync, writeFileSync, readFileSync, existsSync } from "node:fs";
 import { resolve } from "node:path";
 import { spawnSync } from "node:child_process";
-import type { Asset, InputEvent } from "@kmk/compiler";
+import type { Asset, DeviceIdentifier, InputEvent } from "@kmk/compiler";
 export interface NativeCase {
   name: string;
   asset: Asset;
   events: InputEvent[];
   until?: number;
+  device?: DeviceIdentifier;
 }
 export interface NativeResult {
   name: string;
@@ -92,6 +93,21 @@ export function runNative(cases: NativeCase[]): NativeResult[] {
       input_event_queue: `${prefix}-input.json`,
       expected_post_event_to_virtual_devices_queue: `${prefix}-output.json`,
       kmk_variables: `${prefix}-vars.json`,
+      ...(c.device
+        ? {
+            kmk_device: {
+              device_id: 1,
+              device_identifiers: {
+                vendor_id: c.device.vendor_id ?? 0,
+                product_id: c.device.product_id ?? 0,
+                is_keyboard: true,
+              },
+              product: c.device.is_built_in_keyboard
+                ? "Apple Internal Keyboard / Trackpad"
+                : "KMK Test Keyboard",
+            },
+          }
+        : {}),
     };
   });
   const path = resolve(root, "suite.json");

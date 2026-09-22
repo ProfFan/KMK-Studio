@@ -1,0 +1,38 @@
+{
+  "version": 1,
+  "id": "docs-holds",
+  "name": "Escape when tapped, Control when held",
+  "layout": "mac",
+  "timing": {
+    "tapWindowMs": 250,
+    "holdMs": 200
+  },
+  "layers": [
+    {
+      "id": "base",
+      "name": "Base",
+      "bindings": [
+        {
+          "id": "caps-control",
+          "key": "caps_lock",
+          "behavior": {
+            "type": "dance",
+            "steps": [
+              {
+                "tap": {
+                  "type": "key",
+                  "key": "escape"
+                },
+                "hold": {
+                  "type": "key",
+                  "key": "left_control"
+                }
+              }
+            ],
+            "interruption": "hold"
+          }
+        }
+      ]
+    }
+  ]
+}

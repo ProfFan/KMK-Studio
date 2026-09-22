@@ -2,6 +2,7 @@ import { MODIFIERS } from "@kmk/compiler";
 import type {
   Asset,
   Condition,
+  DeviceIdentifier,
   InputEvent,
   Manipulator,
   OutputEvent,
@@ -39,6 +40,7 @@ export function simulateKarabiner(
   asset: Asset,
   events: InputEvent[],
   until?: number,
+  device?: DeviceIdentifier,
 ): SimulationResult {
   validateTrace(events, until);
   const rules: Runtime[] = asset.rules
@@ -70,14 +72,22 @@ export function simulateKarabiner(
     snapshot = variables,
   ): boolean =>
     (cs ?? []).every((c) =>
-      c.type === "expression_if"
-        ? !!evaluate(c.expression!, {
-            ...snapshot,
-            "system.now.milliseconds": now,
-          })
-        : c.type === "variable_if"
-          ? (snapshot[c.name!] ?? 0) === c.value
-          : (snapshot[c.name!] ?? 0) !== c.value,
+      c.type === "device_if"
+        ? device !== undefined &&
+          (c.identifiers ?? []).some((identifier) =>
+            Object.entries(identifier).every(
+              ([field, value]) =>
+                device[field as keyof DeviceIdentifier] === value,
+            ),
+          )
+        : c.type === "expression_if"
+          ? !!evaluate(c.expression!, {
+              ...snapshot,
+              "system.now.milliseconds": now,
+            })
+          : c.type === "variable_if"
+            ? (snapshot[c.name!] ?? 0) === c.value
+            : (snapshot[c.name!] ?? 0) !== c.value,
     );
   const record = (h: Held, type: "down" | "up") => {
     output.push({

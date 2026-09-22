@@ -95,6 +95,12 @@ export const dance = (
   steps: import("./types.ts").DanceStep[],
   options: Omit<Extract<Behavior, { type: "dance" }>, "type" | "steps"> = {},
 ): Behavior => ({ type: "dance", steps, ...options });
+export const deviceIdentifier = (
+  filter: import("./types.ts").DeviceFilter,
+): import("./types.ts").DeviceIdentifier =>
+  filter.type === "built_in_keyboard"
+    ? { is_built_in_keyboard: true }
+    : { vendor_id: filter.vendorId, product_id: filter.productId };
 export const isModifier = (a?: Action): boolean =>
   a?.type === "key" && (MODIFIERS as readonly string[]).includes(a.key);
 export const holdPolicy = (

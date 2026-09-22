@@ -51,6 +51,14 @@ Expiry uses Karabiner's `system.now.milliseconds` clock. No expiry callback is s
 
 Layers and gesture phases are separate. Continuation handlers run before initiation handlers. When an unrelated key resolves a pending layer action, selection for that key accounts for that layer effect even when its cancellation callback occurs later in Karabiner's manipulator loop. Releases always use the binding that consumed the original key-down.
 
+## Global device filter
+
+Omitting `Project.deviceFilter` keeps the existing all-device behavior. `{ "type": "vendor_product", "vendorId": 1452, "productId": 832 }` requires both decimal IDs to match; `{ "type": "built_in_keyboard" }` selects Karabiner's built-in keyboard flag. IDs must be nonnegative safe integers. A VID/PID identifies a device model, not one unique physical unit.
+
+Every generated manipulator has the same `device_if` condition, including continuation, one-shot cancellation, modifier pass-through, and catch-all handlers. Selection is gated at key-down; existing release contexts and timer callbacks retain their original ownership. This follows native Karabiner semantics: input from another device can still interrupt an already pending gesture, and held modifier outputs affect the shared modifier state. The filter is not per-device isolation of gesture or layer variables.
+
+The specification and generated-rule simulators accept device properties as an optional fourth argument: `simulateProject(project, events, until, device)` and `simulateKarabiner(asset, events, until, device)`. The device describes one logical stream with `vendor_id`, `product_id`, and/or `is_built_in_keyboard`. Omitted properties mean an unknown device, which does not match the corresponding filter. The editor playground supplies the selected target's properties because a browser cannot identify physical keyboards.
+
 ## Trace and lifecycle boundaries
 
 Both simulators accept `{at, type, key}` events with nonnegative, nondecreasing integer millisecond timestamps. Keys use Karabiner identities. Duplicate physical downs and unmatched ups are ignored. `until` observes a prefix at or after the last input; otherwise the simulator advances enough to settle all normal timers.
@@ -59,4 +67,4 @@ Both simulators accept `{at, type, key}` events with nonnegative, nondecreasing 
 
 **Native limitation:** disabling a rule after a key releases can destroy its pending delayed-action callback. The engine may discard that pending tap and retain its custom variables. Device removal can likewise remove key-up contexts without executing custom variable cleanup. A compiler cannot execute callbacks in a rule the engine has deleted. Finish gestures before changing the enabled configuration; restart Karabiner after abnormal device/rule teardown if stale state remains. These cases are documented and tested as engine boundaries, not included in the supported uninterrupted-session guarantee.
 
-V1 uses one logical keyboard stream. Concurrent presses of the same key identity from multiple physical keyboards, app/device selectors, multi-key chords, release-anchored timers, arbitrary state machines, and raw Karabiner insertion are outside scope. Source fields outside the typed version-1 model are not an escape hatch for raw rules. Validation limits projects to 16 layers and 512 bindings.
+V1 uses one logical keyboard stream. Concurrent presses of the same key identity from multiple physical keyboards, per-binding app/device selectors, multi-key chords, release-anchored timers, arbitrary state machines, and raw Karabiner insertion are outside scope. Source fields outside the typed version-1 model are not an escape hatch for raw rules. Validation limits projects to 16 layers and 512 bindings.

@@ -44,6 +44,43 @@ export function validate(input: unknown): Diagnostic[] {
       }
   };
   timing(input.timing, "/timing");
+  if (input.deviceFilter !== undefined) {
+    const filter = input.deviceFilter;
+    if (
+      !object(filter) ||
+      !["vendor_product", "built_in_keyboard"].includes(String(filter.type))
+    ) {
+      err(
+        "DEVICE_FILTER",
+        "/deviceFilter",
+        "Choose a VID/PID device or the built-in keyboard, or omit deviceFilter for all devices.",
+      );
+    } else {
+      const allowed =
+        filter.type === "vendor_product"
+          ? ["type", "vendorId", "productId"]
+          : ["type"];
+      for (const field of Object.keys(filter))
+        if (!allowed.includes(field))
+          err(
+            "DEVICE_FILTER",
+            `/deviceFilter/${field}`,
+            "This field is not supported by the selected device filter.",
+          );
+      if (filter.type === "vendor_product")
+        for (const field of ["vendorId", "productId"])
+          if (
+            typeof filter[field] !== "number" ||
+            !Number.isSafeInteger(filter[field]) ||
+            filter[field] < 0
+          )
+            err(
+              "DEVICE_ID",
+              `/deviceFilter/${field}`,
+              "Vendor ID and Product ID must both be nonnegative safe integers (decimal).",
+            );
+    }
+  }
   if (!Array.isArray(input.layers) || !input.layers.length) {
     err("LAYERS", "/layers", "At least one base layer is required.");
     return d;
