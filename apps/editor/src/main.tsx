@@ -822,6 +822,15 @@ function App() {
                     ? "Local project"
                     : "✓ Saved on this device"}
             </span>
+            <a
+              className="repo-link"
+              href="https://github.com/ProfFan/KMK-Studio"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="GitHub repository (opens in a new tab)"
+            >
+              GitHub <span aria-hidden="true">↗</span>
+            </a>
             <button
               className="icon-button"
               aria-label="Undo"

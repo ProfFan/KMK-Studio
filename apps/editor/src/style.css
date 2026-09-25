@@ -28,7 +28,8 @@ select,
 textarea {
   font: inherit;
 }
-button {
+button,
+.repo-link {
   cursor: pointer;
   border: 1px solid #dddfd7;
   background: #fffefa;
@@ -40,7 +41,8 @@ button {
     border-color 0.15s,
     box-shadow 0.15s;
 }
-button:hover {
+button:hover,
+.repo-link:hover {
   background: #f2f2eb;
   border-color: #a5b1a4;
 }
@@ -49,6 +51,7 @@ button:disabled {
   cursor: not-allowed;
 }
 button:focus-visible,
+.repo-link:focus-visible,
 input:focus-visible,
 select:focus-visible,
 textarea:focus-visible,
@@ -358,6 +361,14 @@ a {
   display: flex;
   align-items: center;
   gap: 7px;
+}
+.repo-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 11px;
+  text-decoration: none;
+  white-space: nowrap;
 }
 .saved-label {
   font-size: 10px;
